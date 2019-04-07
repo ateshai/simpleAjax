@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Örneği</title>
+    <style>
+        .imageContainer {
+            width:100%;
+        }
+        .image {
+            width:150px;
+            float:left;
+            margin: 0 10px 10px 0;
+        }
+        .image__title {
+            height:36px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+    </style>
+    <script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <h2>Ajax Örneği</h2>
+
+    <!-- imajların görüntüleneceği container -->
+    <div class="imageContainer"></div>
+
+    <script>
+        $(document).ready(function(){
+            getImages();
+        });
+
+        // imajları cekecek olan fonksiyon
+        function getImages() {
+            // ajax işlemi başladıgında, bitene kadar yukleniyor gostereceğiz
+            $(".imageContainer").append("<p>İmajlar Yükleniyor!</p>");
+
+            $.ajax({
+                method: "GET",
+                url: "https://jsonplaceholder.typicode.com/photos" // buraya jsonu alacagımız adresi yazıyoruz
+            })
+            .done(function( data ) {
+                console.log('data', data);
+
+                // ajax dataları aldı artık container'ın içini boşaltıyoruz
+                $(".imageContainer").html("");
+                
+                // gelen imajların her birini tek tek dolaşıyoruz
+                for ( var i = 0, len = data.length; i < len; i++ ) {
+                    // her bir imaj datası için bir template alıyoruz
+                    var template = returnTemplate(data[i]);
+
+                    // aldığımız template'i container'ın içine ekliyoruz
+                    $(".imageContainer").append(template);
+                }
+            });
+        }
+
+        // returnTemplate fonksiyonu her bir imaj datasından thumbnail imajını ve title'ı alarak
+        // image classlı bir div içinde yerleştiriyor
+        function returnTemplate(image) {
+            console.log("image", image)
+            var template = "<div class='image'>";
+                template += "<div class='image__thumb'><img src='" + image.thumbnailUrl + "' /></div>";
+                template += "<div class='image__title'>" + image.title + "</div>";
+                template += "</div>";
+
+            return template;
+        }
+    </script>
+</body>
+</html>
