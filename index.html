@@ -60,10 +60,11 @@
                   // sadece instagram'dan gelen sonucları listeliyoruz
                   if(data.results[i].source === "instagram") {
                     // her bir imaj datası için bir template alıyoruz
-                    var template = returnTemplate(data.results[i]);
+                    // var template = returnTemplate(data.results[i]);
 
+                    appendEmbed(data.results[i].link);
                     // aldığımız template'i container'ın içine ekliyoruz
-                    $(".imageContainer").append(template);
+                    // $(".imageContainer").append(embed);
                   }
                 }
             });
@@ -79,6 +80,18 @@
                 template += "</div>";
 
             return template;
+        }
+
+        function appendEmbed(post) {
+          console.log("getting embed for ", post);
+          $.ajax({
+              method: "GET",
+              url: "https://api.instagram.com/oembed?url=" + post // buraya jsonu alacagımız adresi yazıyoruz
+          })
+          .done(function( data ) {
+            console.log("embed", data);
+            $(".imageContainer").append(data.html);
+          });
         }
     </script>
 </body>
