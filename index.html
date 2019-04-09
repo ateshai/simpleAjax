@@ -30,8 +30,6 @@
         crossorigin="anonymous"></script>
 </head>
 <body>
-    <h2>Ajax Örneği</h2>
-
     <!-- imajların görüntüleneceği container -->
     <div class="imageContainer"></div>
 
@@ -47,7 +45,7 @@
 
             $.ajax({
                 method: "GET",
-                url: "data.json" // buraya jsonu alacagımız adresi yazıyoruz
+                url: "http://login.somera.com.tr:10000/brand/getLatestDocs?q=source_s:Instagram&profile=teknoloji%20zirvesi&apikey=rM5T2Hyu597xt5xkmkmneHvnnZ2LJsGveC8KYQuNA872mzUHenVGnynSSYcMDGTZ" // buraya jsonu alacagımız adresi yazıyoruz
             })
             .done(function( data ) {
                 console.log('data', data);
@@ -55,18 +53,18 @@
                 // ajax dataları aldı artık container'ın içini boşaltıyoruz
                 $(".imageContainer").html("");
 
-                // gelen imajların her birini tek tek dolaşıyoruz
-                for ( var i = 0, len = data.results.length; i < len; i++ ) {
-                  // sadece instagram'dan gelen sonucları listeliyoruz
-                  if(data.results[i].source === "instagram") {
-                    // her bir imaj datası için bir template alıyoruz
-                    // var template = returnTemplate(data.results[i]);
-
-                    appendEmbed(data.results[i].link);
-                    // aldığımız template'i container'ın içine ekliyoruz
-                    // $(".imageContainer").append(embed);
-                  }
-                }
+                // // gelen imajların her birini tek tek dolaşıyoruz
+                // for ( var i = 0, len = data.results.length; i < len; i++ ) {
+                //   // sadece instagram'dan gelen sonucları listeliyoruz
+                //   if(data.results[i].source === "instagram") {
+                //     // her bir imaj datası için bir template alıyoruz
+                //     // var template = returnTemplate(data.results[i]);
+                //
+                //     appendEmbed(data.results[i].link);
+                //     // aldığımız template'i container'ın içine ekliyoruz
+                //     // $(".imageContainer").append(embed);
+                //   }
+                // }
             });
         }
 
@@ -86,7 +84,7 @@
           console.log("getting embed for ", post);
           $.ajax({
               method: "GET",
-              url: "https://api.instagram.com/oembed?url=" + post // buraya jsonu alacagımız adresi yazıyoruz
+              url: "https://api.instagram.com/oembed?url=" + post + "&hidecaption=true" // buraya jsonu alacagımız adresi yazıyoruz
           })
           .done(function( data ) {
             console.log("embed", data);
